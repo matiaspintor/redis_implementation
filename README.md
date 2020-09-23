@@ -52,7 +52,7 @@ Body:
 {
     "email": "userTest@test.com"
 }
-```*
+```
 
 ## Construido con 🛠️
 
