@@ -12,6 +12,47 @@ Para efectos de la demostracion se manejan datos basicos de usuario en una sola 
 docker run --rm -p 4025:6379 -d --name redis-test redis redis-server
 ```
 
+## Endpoints
+
+* Method: GET 
+```
+/user/all
+```
+
+* Method: GET
+```
+/user/email/{emailUser}
+```
+
+* Method: GET
+```
+/user/birth-date?from=01-01-1997&to=01-01-2000
+```
+
+* Method: POST
+```
+/user/
+```
+Body: 
+```
+{
+    "name": "UserTest",
+    "email": "userTest@test.com",
+    "brith": "02-01-1982",
+    "status": true
+}
+```
+
+* Method: DELETE
+```
+/user/
+```
+Body: 
+```
+{
+    "email": "userTest@test.com"
+}
+```*
 
 ## Construido con 🛠️
 
