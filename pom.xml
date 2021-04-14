@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.4.RELEASE</version>
+		<version>2.4.4</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.implementation.redis</groupId>
-	<artifactId>prueba-r2dbc</artifactId>
+	<artifactId>redis_implementation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>redis-implementation-example</name>
 	<description>Proyecto de ejemplo para la implementacion poliglota de una instancia de Redis cache y H2</description>
@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
-			<version>2.3.8</version>
+			<version>2.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

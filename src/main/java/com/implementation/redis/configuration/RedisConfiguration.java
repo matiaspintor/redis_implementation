@@ -6,14 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.implementation.redis.entity.User;
 
 @Configuration
-@EnableRedisRepositories(basePackages = "com.implementation.redis.redisRepository")
 public class RedisConfiguration {
 
 	@Value("${spring.redis.host}")
@@ -26,11 +24,10 @@ public class RedisConfiguration {
 	public JedisConnectionFactory redisConnectionFactory() {
 		RedisStandaloneConfiguration redisStandAloneConfiguration = new RedisStandaloneConfiguration(this.hostRedis,
 				this.portRedis);
-		// redisStandAloneConfiguration.setPassword(RedisPassword.of(""));
 		return new JedisConnectionFactory(redisStandAloneConfiguration);
 	}
 
-	@Bean
+	@Bean(name = "redisTemplate")
 	public RedisTemplate<String, User> redisTemplate() {
 		RedisTemplate<String, User> template = new RedisTemplate<>();
 		template.setConnectionFactory(redisConnectionFactory());

@@ -2,12 +2,8 @@ package com.implementation.redis.exception;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,25 +12,24 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-
-import com.implementation.redis.RedisImplementationExampleApplication;
-
 import lombok.Generated;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @ControllerAdvice()
 @Generated
+@Slf4j
 public class ErrorAdvice {
-	private static final Logger LOG = LoggerFactory.getLogger(RedisImplementationExampleApplication.class);
+	
+	private static final String INPUT_ERROR = "Input data error ";
 
 	@ExceptionHandler(NotFoundException.class)
 	public final ResponseEntity<Object> notFoundException(NotFoundException ex, WebRequest request) {
 		List<String> details = new ArrayList<>();
 		details.add(ex.getLocalizedMessage());
 		ErrorResponse error = new ErrorResponse("Resource not found", details);
-		ResponseEntity<Object> errorResponse = new ResponseEntity<Object>(error, HttpStatus.NOT_FOUND);
-		LOG.error("Resource not found: " + ex.getLocalizedMessage());
+		ResponseEntity<Object> errorResponse = new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+		log.error("Resource not found: " + ex.getLocalizedMessage());
 		return errorResponse;
 	}
 
@@ -42,9 +37,9 @@ public class ErrorAdvice {
 	public final ResponseEntity<Object> badRequestException(BadRequestException ex, WebRequest request) {
 		List<String> details = new ArrayList<>();
 		details.add(ex.getLocalizedMessage());
-		ErrorResponse error = new ErrorResponse("Input data error", details);
-		ResponseEntity<Object> errorResponse = new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
-		LOG.error("Input data error " + ex.getLocalizedMessage());
+		ErrorResponse error = new ErrorResponse(INPUT_ERROR, details);
+		ResponseEntity<Object> errorResponse = new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+		log.error(INPUT_ERROR + ex.getLocalizedMessage());
 		return errorResponse;
 	}
 
@@ -53,8 +48,8 @@ public class ErrorAdvice {
 		List<String> details = new ArrayList<>();
 		details.add(ex.getLocalizedMessage());
 		ErrorResponse error = new ErrorResponse("Conflict", details);
-		ResponseEntity<Object> errorResponse = new ResponseEntity<Object>(error, HttpStatus.CONFLICT);
-		LOG.error("Conflict: " + ex.getLocalizedMessage());
+		ResponseEntity<Object> errorResponse = new ResponseEntity<>(error, HttpStatus.CONFLICT);
+		log.error("Conflict: " + ex.getLocalizedMessage());
 		return errorResponse;
 	}
 
@@ -63,8 +58,7 @@ public class ErrorAdvice {
 		List<String> details = new ArrayList<>();
 		details.add(ex.getLocalizedMessage());
 		ErrorResponse error = new ErrorResponse("Internal error", details);
-		ResponseEntity<Object> errorResponse = new ResponseEntity<Object>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-		return errorResponse;
+		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
@@ -74,9 +68,8 @@ public class ErrorAdvice {
 		for (ObjectError error : ex.getBindingResult().getAllErrors()) {
 			details.add(error.getDefaultMessage());
 		}
-		ErrorResponse error = new ErrorResponse("Input data error", details);
-		ResponseEntity<Object> errorResponse = new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
-		return errorResponse;
+		ErrorResponse error = new ErrorResponse(INPUT_ERROR, details);
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(value = ConstraintViolationException.class)
@@ -85,37 +78,33 @@ public class ErrorAdvice {
 		for (ConstraintViolation<?> error : ex.getConstraintViolations()) {
 			details.add(error.getMessage());
 		}
-		ErrorResponse error = new ErrorResponse("Input data error", details);
-		ResponseEntity<Object> errorResponse = new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
-		return errorResponse;
+		ErrorResponse error = new ErrorResponse(INPUT_ERROR, details);
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(value = BindException.class)
-	public final ResponseEntity<Object> BindExceptionException(BindException ex, WebRequest request) {
+	public final ResponseEntity<Object> bindExceptionException(BindException ex, WebRequest request) {
 		List<String> details = new ArrayList<>();
 		for (ObjectError error : ex.getBindingResult().getAllErrors()) {
 			details.add(error.getDefaultMessage());
 		}
-		ErrorResponse error = new ErrorResponse("Input data error", details);
-		ResponseEntity<Object> errorResponse = new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
-		return errorResponse;
+		ErrorResponse error = new ErrorResponse(INPUT_ERROR, details);
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(value = HttpMessageNotReadableException.class)
 	public final ResponseEntity<Object> handleException(HttpMessageNotReadableException ex, WebRequest request) {
 		List<String> details = new ArrayList<>();
 		details.add("The method you are querying requires a valid JSON in the body of the Http request");
-		ErrorResponse error = new ErrorResponse("Input data error", details);
-		ResponseEntity<Object> errorResponse = new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
-		return errorResponse;
+		ErrorResponse error = new ErrorResponse(INPUT_ERROR, details);
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(value = NumberFormatException.class)
 	public final ResponseEntity<Object> handleException(NumberFormatException ex, WebRequest request) {
 		List<String> details = new ArrayList<>();
 		details.add("The method you are querying requires a number or a list of numbers as a parameter");
-		ErrorResponse error = new ErrorResponse("Input data error", details);
-		ResponseEntity<Object> errorResponse = new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
-		return errorResponse;
+		ErrorResponse error = new ErrorResponse(INPUT_ERROR, details);
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 }

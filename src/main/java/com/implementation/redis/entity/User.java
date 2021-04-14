@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.implementation.redis.entity.listener.UserEntityListener;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +22,7 @@ import lombok.Setter;
 @Getter()
 @Setter()
 @Table(name = "user_data")
+@EntityListeners({UserEntityListener.class})
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

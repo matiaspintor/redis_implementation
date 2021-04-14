@@ -1,14 +1,15 @@
-package com.implementation.redis.redisRepository;
+package com.implementation.redis.redisrepository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.implementation.redis.entity.User;
 
 public interface RedisRepository {
 	void save(User user);
 
-	void saveAll(List<User> lstUser);
+	void saveAll(Map<String,User> lstUser);
 
 	void delete(User user);
 
