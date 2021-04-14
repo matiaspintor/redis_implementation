@@ -3,7 +3,11 @@ package com.implementation.redis.service.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -15,7 +19,7 @@ import com.implementation.redis.dto.UserDTO;
 import com.implementation.redis.entity.User;
 import com.implementation.redis.exception.InternalException;
 import com.implementation.redis.exception.NotFoundException;
-import com.implementation.redis.redisRepository.RedisRepository;
+import com.implementation.redis.redisrepository.RedisRepository;
 import com.implementation.redis.repository.UserRepository;
 import com.implementation.redis.service.UserService;
 
@@ -28,6 +32,16 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private RedisRepository redisRepository;
 
+	@PostConstruct
+	public void loadAllRedis() {
+		List<User> listAllUsers = this.userRepository.findAll();
+		Map<String, User> hashMapUser = new HashMap<>();
+		for (User user : listAllUsers) {
+			hashMapUser.put(user.getEmailUser(), user);
+		}
+		this.redisRepository.saveAll(hashMapUser);
+	}
+	
 	@Override
 	public List<UserDTO> findAllUser() {
 		List<User> lstUserRegistered = this.redisRepository.findAll();
@@ -57,7 +71,6 @@ public class UserServiceImpl implements UserService {
 			User userNew = new User();
 			BeanUtils.copyProperties(user, userNew);
 			userNew = this.userRepository.save(userNew);
-			this.redisRepository.save(userNew);
 			BeanUtils.copyProperties(userNew, user);
 			return user;
 		}
