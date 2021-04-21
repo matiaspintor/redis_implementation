@@ -44,7 +44,7 @@ Body:
 ```
 ---
 * Method: DELETE
-```
+
 /user?emailUser=sfleyp@hc360.com
 
 ---
