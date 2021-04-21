@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
 			this.redisRepository.delete(userRegistered);
 			return "This user has been deleted";
 		}
-		throw new InternalException("The user is is not registered");
+		throw new NotFoundException("The user is is not registered");
 	}
 
 	@Override

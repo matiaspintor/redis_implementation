@@ -45,14 +45,8 @@ Body:
 ---
 * Method: DELETE
 ```
-/user
-```
-Body: 
-```
-{
-    "email": "userTest@test.com"
-}
-```
+/user?emailUser=sfleyp@hc360.com
+
 ---
 ## Construido con 🛠️
 
