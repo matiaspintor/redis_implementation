@@ -1,9 +1,7 @@
 package com.implementation.redis.redisrepository;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,20 +45,13 @@ public class RedisRepositoryImpl implements RedisRepository {
 	}
 
 	@Override
-	public List<User> findAllByRangeBirth(Date from, Date to) {
-		return this.hashOperations.values(KEY).stream()
-				.filter(x -> x.getBirthDate().after(from) && x.getBirthDate().before(to)).collect(Collectors.toList());
-	}
-
-	@Override
 	public List<User> findAll() {
 		return this.hashOperations.values(KEY);
 	}
 
 	@Override
 	public User findByEmailUser(String emailUser) {
-		return this.hashOperations.values(KEY).stream()
-				.filter(x -> x.getEmailUser().equals(emailUser)).findFirst().orElse(null);
+		return this.hashOperations.get(KEY, emailUser);
 	}
 
 }

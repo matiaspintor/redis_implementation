@@ -36,8 +36,8 @@ public class User {
 	private String emailUser;
 	
 	@Column(name = "birth_date", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Chile/Continental")
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Chile/Continental")
 	private Date birthDate;
 	
 	@Column(name = "status_user", nullable = false)
