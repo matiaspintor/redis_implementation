@@ -14,24 +14,24 @@ docker run --rm -p 4025:6379 -d --name redis-test redis redis-server
 
 ## Endpoints 💠
 
-* Method: GET 
+* Method GET: List all users 
 ```
-/user/all
-```
----
-* Method: GET
-```
-/user/email/{emailUser}
+/user
 ```
 ---
-* Method: GET
+* Method GET: Search for a user by email
 ```
-/user/birth-date?from=01-01-1997&to=01-01-2000
+/user?emailUser=sfleyp@hc360.com
+```
+---
+* Method GET: List users in a date range
+```
+/user?from=01-01-1997&to=01-01-2000
 ```
 ---
 * Method: POST
 ```
-/user/
+/user
 ```
 Body: 
 ```
@@ -45,7 +45,7 @@ Body:
 ---
 * Method: DELETE
 ```
-/user/
+/user
 ```
 Body: 
 ```

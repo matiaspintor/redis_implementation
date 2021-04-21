@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -55,7 +56,8 @@ public class UserServiceImpl implements UserService {
 		try {
 			Date fromDate = dateFormat.parse(from);
 			Date toDate = dateFormat.parse(to);
-			List<User> userRegisteredInRangeDate = this.redisRepository.findAllByRangeBirth(fromDate, toDate);
+			List<User> allUsers = this.redisRepository.findAll();
+			List<User> userRegisteredInRangeDate = allUsers.stream().filter(x -> x.getBirthDate().after(fromDate) && x.getBirthDate().before(toDate)).collect(Collectors.toList());
 			return new ModelMapper().map(userRegisteredInRangeDate, new TypeToken<List<UserDTO>>() {
 			}.getType());
 
