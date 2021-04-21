@@ -43,8 +43,8 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(this.userService.findAllByRangeBirth(from, to));
 	}
 	
-	@DeleteMapping()
-	public ResponseEntity<String> deleteUser(@RequestBody() UserDTO userDTO){
+	@DeleteMapping(params = {"emailUser"})
+	public ResponseEntity<String> deleteUser(@RequestParam("emailUser") String emailUser,  UserDTO userDTO){
 		return ResponseEntity.status(HttpStatus.OK).body(this.userService.deleteUserByUsername(userDTO.getEmailUser()));
 	}
 }
